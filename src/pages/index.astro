@@ -1,16 +1,58 @@
 ---
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+// Importamos funciones específicas, no el objeto completo
+import { getAllWriting, getAllProjects } from '../services/ContentService';
 
+const latestPosts = await getAllWriting();
+const projects = await getAllProjects();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Ingeniero Senior | Sistemas, IA y Personas">
+  <section>
+    <p>
+      Ingeniero senior / Tech Leader centrado en sistemas útiles, criterio técnico y experiencia real.
+    </p>
+  </section>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div>
+      <h3>Sistemas</h3>
+      <p>Arquitecturas robustas y "boring software".</p>
+    </div>
+    <div>
+      <h3>IA con sentido</h3>
+      <p>Resolviendo problemas reales, no solo hype.</p>
+    </div>
+    <div>
+      <h3>Personas</h3>
+      <p>Gestión y seniority técnica aplicada.</p>
+    </div>
+  </div>
+
+  <hr />
+
+  <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+    <div>
+      <h2>Publicaciones</h2>
+      <ul>
+        {latestPosts.map(post => (
+          <li>
+            <a href={`/writing/${post.slug}`}>{post.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2>Proyectos</h2>
+      <ul>
+        {projects.map(project => (
+          <li>
+            <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
